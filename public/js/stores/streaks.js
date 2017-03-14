@@ -4,7 +4,30 @@ mml.stores = mml.stores || {};
 mml.stores.streaks = function(factory) {
 
     var tools = factory.tools(),
-        streaks = factory.enumerable([]);
+        streaks;
+
+    function isBad(streak) {
+        return (typeof(streak.desc) !== 'string' || typeof(streak.id) !== 'string');
+    }
+    function testData(arr) {
+        return !arr.some(isBad);
+    }
+    function load() {
+        var str = localStorage.getItem('streaks'),
+            arr = JSON.parse(str);
+
+        if (typeof(arr) !== 'Array' || !testData(arr)) {
+            arr = [];
+        }
+
+        streaks = factory.enumerable(arr);
+    }
+
+    function save() {
+        localStorage.setItem('streaks', JSON.stringify(streaks));
+    }
+
+    load();
 
     return {
         set: function(streak) {
@@ -14,7 +37,8 @@ mml.stores.streaks = function(factory) {
                     reject('streak description must be string');
                 }
                 id = tools.generateUUID();
-                streaks.push({id: id, streak: streak});
+                streaks.push({id: id, desc: streak});
+                save();
                 resolve(id);
             });
         },
