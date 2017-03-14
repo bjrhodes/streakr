@@ -17,12 +17,17 @@
                 </h2>
             </div>
 
-            <form action="" id="streak-setup-form">
+            <form action="" id="streak-setup-form" method="post">
 
                 <label class="label" for="streak-goal"></label>
                 <p class="control">
-                    <input class="input" id="streak-goal" type="text" placeholder="Ride 1 mile per day" name="streak-goal">
+                    <input class="input" required id="streak-goal" type="text" placeholder="Ride 1 mile per day" name="streak-goal">
                 </p>
+
+                <div class="notification is-danger is-hidden">
+                    Could not save streak. Please try later.
+                </div>
+
                 <button class="button is-primary streak-setup-button">Start Streaking!</button>
             </form>
 
@@ -45,11 +50,11 @@
         </div>
     </footer>
 
-
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <script src="/js/routing/router.js"></script>
     <script src="/js/routing/route-matcher.js"></script>
     <script src="/js/stores/placeholders.js"></script>
+    <script src="/js/stores/streaks.js"></script>
     <script src="/js/utilities/Classy.js"></script>
     <script src="/js/utilities/Debounce.js"></script>
     <script src="/js/utilities/enumerable.js"></script>

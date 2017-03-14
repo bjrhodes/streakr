@@ -4,7 +4,12 @@ mml.views = mml.views || {};
 mml.views.streakSetup = function (el, factory) {
     'use strict';
 
-    var placeholders = factory.store('placeholders');
+    var placeholders = factory.store('placeholders'),
+        streaks = factory.store('streaks'),
+        classy = factory.classy(),
+        form = el.querySelector('form'),
+        input = form.querySelector('input[type="text"]'),
+        cancelError;
 
     function randomPlaceholder() {
         var placeholder;
@@ -12,15 +17,47 @@ mml.views.streakSetup = function (el, factory) {
             var index = Math.floor(Math.random() * length);
             return placeholders.get(index);
         }).then(function(placeholder) {
-            el.querySelector('input[type="text"]').placeholder = placeholder;
+            input.placeholder = placeholder;
         });
     }
+
+    function redirectToStreak() {
+        console.log('OMG! YOU DID IT!');
+    }
+
+    function showError() {
+        var err = form.querySelector('.notification.is-danger');
+
+        classy.remove(err, 'is-hidden');
+        clearTimeout(cancelError);
+        cancelError = setTimeout(function() {
+            classy.add(err, 'is-hidden');
+        }, 6000);
+    }
+
+    function formSubmit(e) {
+        e.preventDefault();
+        streaks.set(input.value)
+                .then(redirectToStreak)
+                .catch(showError);
+    }
+
+    function addHandlers() {
+        form.addEventListener('submit', formSubmit);
+    }
+
+    function stripHandlers() {
+        form.removeEventListener('submit', formSubmit);
+    }
+
     function teardown() {
         el.style.display = '';
+        stripHandlers();
     }
     function setup() {
         el.style.display = 'block';
         randomPlaceholder();
+        addHandlers();
     }
 
     return {
