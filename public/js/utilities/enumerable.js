@@ -48,6 +48,22 @@ mml.utilities.enumerable = function(arr) {
         return found;
     };
 
+    var replaceBy = function(key, newMap) {
+        var found = false;
+
+        var search = function(hashmap, index) {
+            if (hashmap[key] === newMap[key]) {
+                found = hashmap;
+                arr.splice(index, 1, newMap);
+                return true;
+            }
+        };
+
+        arr.some(search);
+
+        return found;
+    };
+
     var sortBy = function(key) {
         arr = arr.sort(function(a, b) {
             return a[key] < b[key] ? -1 : (a[key] > b[key] ? 1 : 0);
@@ -56,6 +72,7 @@ mml.utilities.enumerable = function(arr) {
     }
 
     arr.extractBy = extractBy;
+    arr.replaceBy = replaceBy;
     arr.searchBy  = searchBy;
     arr.sortBy  = sortBy;
     arr.searchRegexBy  = searchRegexBy;

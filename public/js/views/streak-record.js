@@ -5,13 +5,16 @@ mml.views.streakRecord = function (el, factory) {
     'use strict';
 
     var streaks = factory.store('streaks'),
+        router = factory.router(),
         button = el.querySelector('button'),
-        title = el.querySelector('#goal');
+        title = el.querySelector('#goal'),
+        streak;
 
     function buttonPressed(e) {
         e.preventDefault();
         button.disabled = 'disabled';
-        console.log('now save that...');
+        streak.completions.push(new Date());
+        streaks.set(streak);
     }
 
     function addHandlers() {
@@ -22,6 +25,19 @@ mml.views.streakRecord = function (el, factory) {
         button.removeEventListener('click', buttonPressed);
     }
 
+    function loading() {
+        // @todo loading state on fetch streak
+    }
+
+    function findStreak() {
+        var id = router.parameters()[2];
+        return streaks.get(id);
+    }
+
+    function setupStreak() {
+        title.textContent = streak.desc;
+    }
+
     function teardown() {
         el.style.display = '';
         button.disabled = undefined;
@@ -29,7 +45,15 @@ mml.views.streakRecord = function (el, factory) {
     }
     function setup() {
         el.style.display = 'block';
-        addHandlers();
+        loading();
+
+        findStreak().then(function(_streak_) {
+            streak = _streak_;
+            setupStreak();
+            addHandlers();
+        }).catch(function() {
+            router.route('not-found');
+        });
     }
 
     return {

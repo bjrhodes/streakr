@@ -7,7 +7,7 @@ mml.stores.streaks = function(factory) {
         streaks;
 
     function isBad(streak) {
-        return (typeof(streak.desc) !== 'string' || typeof(streak.id) !== 'string');
+        return (typeof(streak.desc) !== 'string' || typeof(streak.id) !== 'string' || !(streak.completions instanceof Array));
     }
     function testData(arr) {
         return !arr.some(isBad);
@@ -27,21 +27,40 @@ mml.stores.streaks = function(factory) {
         localStorage.setItem('streaks', JSON.stringify(streaks));
     }
 
+    function updateStreak(streak) {
+        return new Promise(function(resolve, reject) {
+            var success = streaks.replaceBy('id', streak);
+            if (!success) {
+                reject('Could not find streak to update');
+            }
+            save();
+            resolve();
+        });
+    }
+
+    function insertStreak(streak) {
+        return new Promise(function(resolve, reject) {
+            var id, streak;
+            if (typeof(desc) !== 'string' || desc.length === 0) {
+                reject('streak description must be string');
+            }
+            id = tools.generateUUID();
+            streak = {id: id, desc: desc, completions: []};
+            streaks.push(streak);
+            save();
+            resolve(streak);
+        });
+    }
+
     load();
 
     return {
-        set: function(desc) {
-            return new Promise(function(resolve, reject) {
-                var id, streak;
-                if (typeof(desc) !== 'string' || desc.length === 0) {
-                    reject('streak description must be string');
-                }
-                id = tools.generateUUID();
-                streak = {id: id, desc: desc};
-                streaks.push(streak);
-                save();
-                resolve(streak);
-            });
+        set: function(streak) {
+            if (streak.id) {
+                return updateStreak(streak);
+            } else {
+                return insertStreak(streak);
+            }
         },
 
         get: function(id) {
