@@ -6,7 +6,8 @@ mml.Factory = function(config, document) {
     'use strict';
 
     var self, classy, debounce, format, errorReporter, tools, cached = {
-        views : {}
+        views : {},
+        router: null
     };
 
     // allow this to be injected for mocking purposes.
@@ -24,7 +25,10 @@ mml.Factory = function(config, document) {
     }
 
     function router() {
-        return new mml.routing.router(window, config.routes);
+        if (!cached.router) {
+            cached.router = new mml.routing.router(window, config.routes);
+        }
+        return cached.router;
     }
 
     function view(route) {

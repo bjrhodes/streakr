@@ -16,7 +16,7 @@ mml.stores.streaks = function(factory) {
         var str = localStorage.getItem('streaks'),
             arr = JSON.parse(str);
 
-        if (typeof(arr) !== 'Array' || !testData(arr)) {
+        if (!(arr instanceof Array) || !testData(arr)) {
             arr = [];
         }
 
@@ -30,16 +30,17 @@ mml.stores.streaks = function(factory) {
     load();
 
     return {
-        set: function(streak) {
+        set: function(desc) {
             return new Promise(function(resolve, reject) {
-                var id;
-                if (typeof(streak) !== 'string' || streak.length === 0) {
+                var id, streak;
+                if (typeof(desc) !== 'string' || desc.length === 0) {
                     reject('streak description must be string');
                 }
                 id = tools.generateUUID();
-                streaks.push({id: id, desc: streak});
+                streak = {id: id, desc: desc};
+                streaks.push(streak);
                 save();
-                resolve(id);
+                resolve(streak);
             });
         },
 

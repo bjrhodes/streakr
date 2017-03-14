@@ -21,8 +21,8 @@ mml.views.streakSetup = function (el, factory) {
         });
     }
 
-    function redirectToStreak() {
-        console.log('OMG! YOU DID IT!');
+    function redirectToStreak(streak) {
+        factory.router().route('/streak/' + streak.id.replace(/[^a-f0-9\-]/, ''));
     }
 
     function showError() {
