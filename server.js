@@ -1,0 +1,10 @@
+var express = require('express');
+var argv = require('minimist')(process.argv.slice(2));
+var app = express();
+
+var port = Number(argv.port) || Number(argv.p) || 3000;
+
+app.use(express.static(__dirname + '/public'));
+app.listen(port, function () {
+  console.log('Streakr serving directory ' + __dirname + '/public on port ' + port);
+});
