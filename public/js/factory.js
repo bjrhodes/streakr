@@ -28,7 +28,7 @@ mml.Factory = function(config, document) {
     }
 
     function view(route) {
-        return new mml.views[route.view](getEl(route.element), errorReporter.reporter, self);
+        return new mml.views[route.view](getEl(route.element), self, errorReporter.reporter);
     }
 
     function store(storeName) {
