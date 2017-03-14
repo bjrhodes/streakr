@@ -2,19 +2,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Streakr</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/bulma.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-    <section id="streak-setup">
-        <form action="" id="streak-setup-form">
-            <label for="streak-goal"></label>
-            <input id="streak-goal" type="text" placeholder="Ride 1 mile per day" name="streak-goal">
+    <section id="streak-setup" class="section">
+        <div class="container">
 
-            <button class="streak-setup-button">Start Streaking!</button>
-        </form>
+            <div class="heading">
+                <h1 class="title">Start Streaking</h1>
+                <h2 class="subtitle">
+                    Set yourself a simple goal to hit <strong>every day</strong>.
+                </h2>
+            </div>
+
+            <form action="" id="streak-setup-form">
+
+                <label class="label" for="streak-goal"></label>
+                <p class="control">
+                    <input class="input" id="streak-goal" type="text" placeholder="Ride 1 mile per day" name="streak-goal">
+                </p>
+                <button class="button is-primary streak-setup-button">Start Streaking!</button>
+            </form>
+
+        </div>
     </section>
 
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Streakr</strong> by Barry Rhodes at <a href="https://mymedialab.co.uk">my<strong>media</strong>lab</a>.
+                    The source code is licensed <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+                </p>
+                <p>
+                    <a class="icon is-large fa-lg" href="https://github.com/bjrhodes/streakr">
+                        <i class="fa  fa-github"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <script src="/js/routing/router.js"></script>
     <script src="/js/routing/route-matcher.js"></script>
     <script src="/js/stores/placeholders.js"></script>
