@@ -4,7 +4,10 @@ mml.views = mml.views || {};
 mml.views.streakSetup = function (el, factory) {
     'use strict';
 
-    var placeholders = factory.store('placeholders');
+    var placeholders = factory.store('placeholders'),
+	   streaks = factory.store('streaks'),
+	   form = el.querySelector('form'),
+	   input = form.querySelector('input');
 
     function randomPlaceholder() {
         var placeholder;
@@ -15,12 +18,29 @@ mml.views.streakSetup = function (el, factory) {
             el.querySelector('input[type="text"]').placeholder = placeholder;
         });
     }
+
+    function formSubmit(e) {
+	    e.preventDefault();
+	    streaks.set(input.value);
+    }
+
+    function addEventListeners() {
+	    form.addEventListener('submit', formSubmit);
+    }
+
+    function removeEventListeners() {
+	    form.removeEventListener('submit', formSubmit);
+    }
+
     function teardown() {
         el.style.display = '';
+	    removeEventListeners();
     }
+
     function setup() {
         el.style.display = 'block';
-        randomPlaceholder();
+	    randomPlaceholder();
+        addEventListeners();
     }
 
     return {

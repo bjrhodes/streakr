@@ -1,38 +1,25 @@
 var mml = mml || {};
 mml.stores = mml.stores || {};
 
-mml.stores.placeholders = function(factory) {
+mml.stores.streaks = function(factory) {
 
     var tools = factory.tools(),
-        arr = [
-            'Ride at least a mile',
-            'Practice writing an unfamiliar javascript function',
-            'Read a chapter of a book',
-            'Cook a new recipe',
-        ];
+        arr = [];
 
     return {
-        set: function(str) {
+        set: function(desc) {
             return new Promise(function(resolve, reject) {
-                if (typeof(str) !== 'string') {
+                if (typeof(desc) !== 'string') {
                     reject('Placeholder store only accepts strings.');
                 }
 
-                arr.push(str);
+                arr.push(desc);
+		console.log('saved' + desc, arr);
                 resolve();
             });
         },
         get: function(id) {
             return new Promise(function(resolve, reject) {
-                id = Number(id);
-                if (isNaN(id)) {
-                    reject('Cannot return placeholder. ID must be numeric.');
-                }
-                if (id < 0 || id >= arr.length) {
-                    reject('Cannot return placeholder. ID out of range.');
-                }
-
-                resolve(arr[id]);
             });
         },
         getAll: function() {
