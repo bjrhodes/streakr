@@ -22,6 +22,7 @@ mml.views.streakSetup = function (el, factory) {
     function formSubmit(e) {
         e.preventDefault();
         streaks.set(input.value);
+        form.querySelector('button').disabled = 'disabled';
     }
 
     function addEventListeners() {
