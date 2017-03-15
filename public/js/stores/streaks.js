@@ -6,15 +6,36 @@ mml.stores.streaks = function(factory) {
     var tools = factory.tools(),
         arr = [ ];
 
-    return {
+	function load() {
+		var str = localStorage.getItem('streaks'),
+		parsed = JSON.parse(str);
+
+		if (parsed instanceof Array) {
+		arr = parsed;
+		}
+	}
+
+	function save() {
+		localStorage.setItem('streaks', JSON.stringify(arr));
+	}
+
+	load(); 
+
+
+return {
         set: function(desc) {
             return new Promise(function(resolve, reject) {
+		var streak ={};
+
                 if (typeof(desc) !== 'string') {
                     reject('Streak descriptions must be strings.');
                 }
+		streak.id = tools.generateUUID();
+		streak.desc = desc;
 
-                arr.push(desc);
-console.log("you've saved " + desc, arr);
+                arr.push(streak);
+		save();
+
                 resolve();
             });
         },
