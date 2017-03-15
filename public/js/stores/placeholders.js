@@ -14,7 +14,7 @@ mml.stores.placeholders = function(factory) {
     return {
         set: function(str) {
             return new Promise(function(resolve, reject) {
-                if (typeof(str) !== 'String') {
+                if (typeof(str) !== 'string') {
                     reject('Placeholder store only accepts strings.');
                 }
 
